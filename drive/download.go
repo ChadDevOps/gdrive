@@ -19,6 +19,7 @@ type DownloadArgs struct {
 	Path      string
 	Force     bool
 	Skip      bool
+	Skipraw   bool
 	Recursive bool
 	Delete    bool
 	Stdout    bool
@@ -72,6 +73,7 @@ type DownloadQueryArgs struct {
 	Path      string
 	Force     bool
 	Skip      bool
+	Skipraw   bool
 	Recursive bool
 }
 
@@ -143,12 +145,10 @@ func (self *Drive) downloadBinary(f *drive.File, args DownloadArgs) (int64, int6
 	fpath := filepath.Join(args.Path, f.Name)
 
 	// CHADDEVOPS EDIT
-	if strings.Contains(fpath, ".blend") || strings.Contains(fpath, ".mix") {
+	if  args.Skipraw && (strings.HasSuffix(f.Name, ".blend") || strings.HasSuffix(f.Name, ".mix")) {
 		fmt.Printf("Skipping '%s' due to extension\n", fpath)
 		return 0, 0, nil
-    }
-
-	if !args.Stdout {
+    }else if !args.Stdout {
 		fmt.Fprintf(args.Out, "Downloading %s -> %s\n", f.Name, fpath)
 	}
 
@@ -159,6 +159,7 @@ func (self *Drive) downloadBinary(f *drive.File, args DownloadArgs) (int64, int6
 		fpath:         fpath,
 		force:         args.Force,
 		skip:          args.Skip,
+		skipraw:       args.Skipraw,
 		stdout:        args.Stdout,
 		progress:      args.Progress,
 	})
@@ -171,6 +172,7 @@ type saveFileArgs struct {
 	fpath         string
 	force         bool
 	skip          bool
+	skipraw       bool
 	stdout        bool
 	progress      io.Writer
 }
@@ -186,7 +188,7 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 	}
 
 	// CHADDEVOPS EDIT
-	if strings.Contains(args.fpath, ".blend") || strings.Contains(args.fpath, ".mix")  {
+	if args.skipraw && (strings.HasSuffix(args.fpath, ".blend") || strings.HasSuffix(args.fpath, ".mix"))  {
 		fmt.Printf("Skipping '%s' due to extension\n", args.fpath)
 		return 0, 0, nil
     }
@@ -198,7 +200,7 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 
 	//Check if file exists to skip
 	if args.skip && fileExists(args.fpath) {
-		fmt.Printf("File '%s' already exists, skipping\n", args.fpath)
+		fmt.Printf("Skipping File '%s', already exists\n", args.fpath)
 		return 0, 0, nil
 	}
 

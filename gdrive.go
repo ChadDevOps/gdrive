@@ -119,6 +119,12 @@ func main() {
 						OmitValue:   true,
 					},
 					cli.BoolFlag{
+						Name:        "skipraw",
+						Patterns:    []string{"-s", "--skipraw"},
+						Description: "Skip 3d raw files like .blend and .mix",
+						OmitValue:   true,
+					},
+					cli.BoolFlag{
 						Name:        "recursive",
 						Patterns:    []string{"-r", "--recursive"},
 						Description: "Download directory recursively, documents will be skipped",

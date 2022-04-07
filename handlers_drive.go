@@ -55,6 +55,7 @@ func downloadHandler(ctx cli.Context) {
 		Id:        args.String("fileId"),
 		Force:     args.Bool("force"),
 		Skip:      args.Bool("skip"),
+		Skipraw:   args.Bool("skipraw"),
 		Path:      args.String("path"),
 		Delete:    args.Bool("delete"),
 		Recursive: args.Bool("recursive"),
