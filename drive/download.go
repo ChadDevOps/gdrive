@@ -179,6 +179,12 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 		return 0, 0, err
 	}
 
+	// CHADDEVOPS EDIT
+	if strings.Contains(args.fpath, ".blend") {
+		fmt.Printf("Skipping '%s' due to extension\n", args.fpath)
+		return 0, 0, nil
+    }
+
 	// Check if file exists to force
 	if !args.skip && !args.force && fileExists(args.fpath) {
 		return 0, 0, fmt.Errorf("File '%s' already exists, use --force to overwrite or --skip to skip", args.fpath)
@@ -189,12 +195,6 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 		fmt.Printf("File '%s' already exists, skipping\n", args.fpath)
 		return 0, 0, nil
 	}
-	
-	// CHADDEVOPS EDIT
-	if strings.Contains(args.fpath, ".blend") {
-		fmt.Printf("Skipping '%s' due to extension\n", args.fpath)
-		return 0, 0, nil
-    	} 
 
 	// Ensure any parent directories exists
 	if err := mkdir(args.fpath); err != nil {
