@@ -143,7 +143,7 @@ func (self *Drive) downloadBinary(f *drive.File, args DownloadArgs) (int64, int6
 	fpath := filepath.Join(args.Path, f.Name)
 
 	// CHADDEVOPS EDIT
-	if strings.Contains(fpath, ".blend") {
+	if strings.Contains(fpath, ".blend") || strings.Contains(fpath, ".mix") {
 		fmt.Printf("Skipping '%s' due to extension\n", fpath)
 		return 0, 0, nil
     }
@@ -186,7 +186,7 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 	}
 
 	// CHADDEVOPS EDIT
-	if strings.Contains(args.fpath, ".blend") {
+	if strings.Contains(args.fpath, ".blend") || strings.Contains(args.fpath, ".mix")  {
 		fmt.Printf("Skipping '%s' due to extension\n", args.fpath)
 		return 0, 0, nil
     }
