@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"strings"
 
 	"google.golang.org/api/drive/v3"
 	"google.golang.org/api/googleapi"
@@ -188,6 +189,12 @@ func (self *Drive) saveFile(args saveFileArgs) (int64, int64, error) {
 		fmt.Printf("File '%s' already exists, skipping\n", args.fpath)
 		return 0, 0, nil
 	}
+	
+	// CHADDEVOPS EDIT
+	if strings.Contains(args.fpath, ".blend") {
+		fmt.Printf("Skipping '%s' due to extension\n", args.fpath)
+		return 0, 0, nil
+    	} 
 
 	// Ensure any parent directories exists
 	if err := mkdir(args.fpath); err != nil {
