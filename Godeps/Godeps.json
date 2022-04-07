@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/chaddevops/gdrive",
+	"ImportPath": "github.com/ChadDevOps/gdrive",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v61",
 	"Deps": [
