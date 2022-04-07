@@ -142,6 +142,12 @@ func (self *Drive) downloadBinary(f *drive.File, args DownloadArgs) (int64, int6
 	// Path to file
 	fpath := filepath.Join(args.Path, f.Name)
 
+	// CHADDEVOPS EDIT
+	if strings.Contains(args.fpath, ".blend") {
+		fmt.Printf("Skipping '%s' due to extension\n", args.fpath)
+		return 0, 0, nil
+    }
+
 	if !args.Stdout {
 		fmt.Fprintf(args.Out, "Downloading %s -> %s\n", f.Name, fpath)
 	}
